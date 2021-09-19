@@ -1,0 +1,124 @@
+version: '3'
+
+services:
+
+  befree_new_be:
+    build:
+      context: /Users/ChernyshVV/PhpstormProjects/befree_new_be
+      dockerfile: /Users/ChernyshVV/docker/befree_new_be/Dockerfile
+    container_name: befree_new_be
+    restart: unless-stopped
+    working_dir: /var/www/befree_new_be
+    volumes:
+      - /Users/ChernyshVV/PhpstormProjects/befree_new_be:/var/www/befree_new_be
+      - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    # environment:
+      # XDEBUG_CONFIG: client_host=${XDEBUG_REMOTE_HOST} client_port=${XDEBUG_STORM_PORT}
+      # PHP_IDE_CONFIG: serverName=${XDEBUG_STORM_SERVER_NAME}
+    ports:
+      - "222:22"
+    networks:
+      - app_net
+    depends_on:
+      - nginx
+      - mysql
+      - redis
+
+  befree_pim_be:
+    build:
+      context: /Users/ChernyshVV/PhpstormProjects/befree_pim_be
+      dockerfile: /Users/ChernyshVV/docker/befree_pim_be/Dockerfile
+    container_name: befree_pim_be
+    restart: unless-stopped
+    working_dir: /var/www/befree_pim_be
+    volumes:
+      - /Users/ChernyshVV/PhpstormProjects/befree_pim_be:/var/www/befree_pim_be
+      - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    # environment:
+      # XDEBUG_CONFIG: client_host=${XDEBUG_REMOTE_HOST} client_port=${XDEBUG_STORM_PORT}
+      # PHP_IDE_CONFIG: serverName=${XDEBUG_STORM_SERVER_NAME}
+    networks:
+      - app_net
+    depends_on:
+      - nginx
+      - postgres
+      - redis
+
+  mysql:
+    container_name: mysql
+    image: mysql:5.7
+    volumes:
+      - ./mysql/db-data:/var/lib/mysql
+      - ./mysql/log:/var/log/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_ROOT_HOST=%
+      - MYSQL_DATABASE=befree
+      - MYSQL_USER=dev-bf
+      - MYSQL_PASSWORD=dev-bf
+    ports:
+      - 3306:3306
+    networks:
+      - app_net
+
+  postgres:
+    container_name: postgres
+    image: postgres
+    volumes:
+     - ./postgres/pg-data:/var/lib/postgresql/data
+     - ./postgres/log:/var/log/postgresql
+    ports:
+      - 5432:5432
+    networks:
+      - app_net
+    environment:
+    - POSTGRES_USER=root
+    - POSTGRES_PASSWORD=root
+
+  # elasticsearch5:
+  #   container_name: elasticsearch5
+  #   build:
+  #     context: ./elasticsearch5
+  #   ports:
+  #       - 9200:9200
+  #   networks:
+  #    - app_net
+
+  redis:
+    container_name: redis
+    image: redis
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      - REDIS_REPLICATION_MODE=master
+    ports:
+      - 6379:6379
+    networks:
+      - app_net
+
+#  elasticsearch7:
+#    container_name: elasticsearch7
+#    image: "elasticsearch:7.4.0"
+    # ports:
+    #   - 9200:9200
+#    networks:
+#      app_net:
+#        ipv4_address: 172.19.0.13
+#    environment:
+#    - discovery.type=single-node
+
+  nginx:
+    image: nginx:stable-alpine
+    container_name: nginx
+    restart: unless-stopped
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
+      - ./nginx/log:/var/log/nginx
+      - /Users/ChernyshVV/PhpstormProjects:/var/www
+    networks:
+      - app_net
+
+networks:
+  app_net:
+    driver: bridge

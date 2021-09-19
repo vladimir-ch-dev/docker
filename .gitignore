@@ -1,0 +1,7 @@
+.DS_Store
+/.idea
+/mysql/db-data/**
+/mysql/log/**
+/postgres/log/**
+/postgres/pg-data/**
+/nginx/log/**
