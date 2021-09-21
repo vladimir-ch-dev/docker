@@ -4,13 +4,13 @@ services:
 
   befree_new_be:
     build:
-      context: /Users/ChernyshVV/PhpstormProjects/befree_new_be
+      context: /var/www/befree_new_be
       dockerfile: /Users/ChernyshVV/docker/befree_new_be/Dockerfile
     container_name: befree_new_be
     restart: unless-stopped
     working_dir: /var/www/befree_new_be
     volumes:
-      - /Users/ChernyshVV/PhpstormProjects/befree_new_be:/var/www/befree_new_be
+      - /var/www/befree_new_be:/var/www/befree_new_be
       - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
     # environment:
       # XDEBUG_CONFIG: client_host=${XDEBUG_REMOTE_HOST} client_port=${XDEBUG_STORM_PORT}
@@ -26,13 +26,13 @@ services:
 
   befree_pim_be:
     build:
-      context: /Users/ChernyshVV/PhpstormProjects/befree_pim_be
+      context: /var/www/befree_pim_be
       dockerfile: /Users/ChernyshVV/docker/befree_pim_be/Dockerfile
     container_name: befree_pim_be
     restart: unless-stopped
     working_dir: /var/www/befree_pim_be
     volumes:
-      - /Users/ChernyshVV/PhpstormProjects/befree_pim_be:/var/www/befree_pim_be
+      - /var/www/befree_pim_be:/var/www/befree_pim_be
       - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
     # environment:
       # XDEBUG_CONFIG: client_host=${XDEBUG_REMOTE_HOST} client_port=${XDEBUG_STORM_PORT}
@@ -115,7 +115,7 @@ services:
     volumes:
       - ./nginx/conf.d/:/etc/nginx/conf.d/
       - ./nginx/log:/var/log/nginx
-      - /Users/ChernyshVV/PhpstormProjects:/var/www
+      - /var/www:/var/www
     networks:
       - app_net
 
