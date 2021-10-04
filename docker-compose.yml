@@ -5,7 +5,7 @@ services:
   befree_new_be:
     build:
       context: /var/www/befree_new_be
-      dockerfile: ./befree_new_be/Dockerfile
+      dockerfile: /var/docker/befree_new_be/Dockerfile
     container_name: befree_new_be
     restart: unless-stopped
     working_dir: /var/www/befree_new_be
@@ -27,7 +27,7 @@ services:
   befree_pim_be:
     build:
       context: /var/www/befree_pim_be
-      dockerfile: ./befree_pim_be/Dockerfile
+      dockerfile: /var/docker/befree_pim_be/Dockerfile
     container_name: befree_pim_be
     restart: unless-stopped
     working_dir: /var/www/befree_pim_be
