@@ -10,7 +10,7 @@ RUN apt-get update && apt-get upgrade -y \
     && rm -rf /var/lib/apt/lists/*
 #
 #    Включаем необходимые расширения
-RUN docker-php-ext-install -j$(nproc) pdo exif pgsql pdo_pgsql pcntl \
+RUN docker-php-ext-install -j$(nproc) pdo exif mysqli pdo_mysql pgsql pdo_pgsql pcntl \
     ftp json soap sockets zip gmp bcmath dom xml gd \
 #    && pecl install xdebug-3.0.4 \
 #    && docker-php-ext-enable xdebug \
