@@ -4,11 +4,13 @@ RUN apt-get update && apt-get upgrade -y \
     && apt-get install apt-utils -y \
 #
 #    устанавливаем необходимые пакеты
-    && apt-get install mc git zip vim wget iputils-ping procps openssh-server libzip-dev libgmp-dev \
-        libpq-dev libpng-dev zsh curl libssl-dev libxml2-dev -y \
+    && apt-get install cron mc git zip vim wget iputils-ping procps openssh-server libzip-dev libgmp-dev \
+        libpq-dev libpng-dev zsh curl libssl-dev libxml2-dev libmagickwand-dev -y \
 #    && apt-get install -y --no-install-recommends supervisor \
     && rm -rf /var/lib/apt/lists/*
 #
+RUN printf "\n" | pecl install imagick
+RUN docker-php-ext-enable imagick
 #    Включаем необходимые расширения
 RUN docker-php-ext-install -j$(nproc) pdo exif mysqli pdo_mysql pcntl \
     ftp json soap sockets zip gmp bcmath dom xml gd \
