@@ -24,6 +24,24 @@ services:
       - mysql
       - redis
 
+  befree_catalog_be:
+    build:
+      context: /var/www/befree_catalog_be
+      dockerfile: /var/docker/befree_catalog_be/Dockerfile
+    container_name: befree_catalog_be
+    restart: unless-stopped
+    working_dir: /var/www/befree_catalog_be
+    volumes:
+      - /var/www/befree_catalog_be:/var/www/befree_catalog_be
+      - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - app_net
+    depends_on:
+      - nginx
+      - postgres
+      - redis
+      - rabbitmq
+
   befree_pim_be:
     build:
       context: /var/www/befree_pim_be
