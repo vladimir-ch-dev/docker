@@ -5,14 +5,14 @@ RUN apt-get update && apt-get upgrade -y \
 #
 #    устанавливаем необходимые пакеты
     && apt-get install cron mc git zip vim wget iputils-ping procps openssh-server libzip-dev libgmp-dev \
-        libpq-dev libpng-dev librabbitmq-dev zsh curl libssl-dev libxml2-dev libmagickwand-dev -y \
+        libpq-dev libpng-dev librabbitmq-dev zsh curl libssl-dev libxml2-dev libmagickwand-dev libldap2-dev -y \
 #    && apt-get install -y --no-install-recommends supervisor \
     && rm -rf /var/lib/apt/lists/*
 #
 RUN printf "\n" | pecl install imagick redis amqp
 #    Включаем необходимые расширения
 RUN docker-php-ext-install -j$(nproc) pdo exif mysqli pdo_mysql pgsql pdo_pgsql pcntl \
-    ftp soap sockets zip gmp bcmath dom xml gd \
+    ftp soap sockets zip gmp bcmath dom xml gd ldap \
     && pecl install xdebug \
     && docker-php-ext-enable imagick redis amqp xdebug\
 #    Чистим временные файлы
