@@ -66,6 +66,26 @@ services:
       - nginx
       - postgres
 
+  befree_auth_be:
+    build:
+      context: /var/www/befree_auth_be
+      dockerfile: /var/docker/befree_auth_be/Dockerfile
+    container_name: befree_auth_be
+    restart: unless-stopped
+    working_dir: /var/www/befree_auth_be
+    volumes:
+      - /var/www/befree_auth_be:/var/www/befree_auth_be
+      - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    environment:
+      - PHP_IDE_CONFIG=serverName=auth-config-server
+#    ports:
+#      - "9003:9003"
+    networks:
+      - app_net
+    depends_on:
+      - nginx
+      - postgres
+
   befree_pim_be:
     build:
       context: /var/www/befree_pim_be
