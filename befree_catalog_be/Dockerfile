@@ -13,7 +13,8 @@ RUN printf "\n" | pecl install imagick redis amqp
 #    Включаем необходимые расширения
 RUN docker-php-ext-install -j$(nproc) pdo exif mysqli pdo_mysql pgsql pdo_pgsql pcntl \
     ftp soap sockets zip gmp bcmath dom xml gd \
-&& docker-php-ext-enable imagick redis amqp\
+    && pecl install xdebug-3.1.4 \
+    && docker-php-ext-enable imagick redis amqp xdebug\
 #    Чистим временные файлы
     && docker-php-source delete \
     && apt-get autoremove --purge -y && apt-get autoclean -y && apt-get clean -y

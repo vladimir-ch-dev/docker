@@ -14,8 +14,8 @@ RUN docker-php-ext-enable imagick
 #    Включаем необходимые расширения
 RUN docker-php-ext-install -j$(nproc) pdo exif mysqli pdo_mysql pcntl \
     ftp json soap sockets zip gmp bcmath dom xml gd \
-#    && pecl install xdebug-3.0.4 \
-#    && docker-php-ext-enable xdebug \
+    && pecl install xdebug \
+    && docker-php-ext-enable xdebug \
 #    Чистим временные файлы
     && docker-php-source delete \
     && apt-get autoremove --purge -y && apt-get autoclean -y && apt-get clean -y
